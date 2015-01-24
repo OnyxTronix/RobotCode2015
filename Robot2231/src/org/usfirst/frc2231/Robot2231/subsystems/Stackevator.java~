@@ -153,8 +153,11 @@ public class Stackevator extends PIDSubsystem {
     public void setByJoystick(Joystick stick) {
     	//@summary: move the system manually by with a joystick
     	double setValue = stick.getRawAxis(3)-stick.getRawAxis(2);
-    	setGoingDown(setValue < 0);
-    	motor.set(setValue);
+    	boolean goingDown = (setValue < 0);
+    	if (!(goingDown && reachedBottom())) {
+        	setGoingDown(goingDown);        	
+        	motor.set(setValue);
+    	}
 	}
     
     public void resetEncoder() {
