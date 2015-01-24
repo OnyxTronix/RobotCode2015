@@ -1,0 +1,107 @@
+<xml version="1.0">
+<dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="3" y="7"/>
+		<property name="Text" value="Connected?"/>
+	</static-widget>
+	<widget field="Stackevator Is Calibrated" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="721" y="51"/>
+		<width>150</width>
+		<height>26</height>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="0" y="21"/>
+		<width>76</width>
+		<height>50</height>
+	</static-widget>
+	<widget field="Stackevator Moving with PID" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="719" y="85"/>
+		<width>170</width>
+		<height>25</height>
+	</widget>
+	<widget field="Stackevator Reached Bottom" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="720" y="150"/>
+		<width>172</width>
+		<height>28</height>
+	</widget>
+	<widget field="Stackevator Going Down" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="719" y="120"/>
+		<width>150</width>
+		<height>26</height>
+	</widget>
+	<widget field="Stackevator position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="479" y="54"/>
+	</widget>
+	<widget field="Stackevator setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="477" y="26"/>
+	</widget>
+	<widget field="DeployCollector" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="886" y="267"/>
+	</widget>
+	<widget field="LiftToLevel2" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="414" y="305"/>
+	</widget>
+	<widget field="CollectWithRight" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="710" y="298"/>
+	</widget>
+	<widget field="RotateLeft" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="227" y="229"/>
+	</widget>
+	<widget field="CollectWithLeft" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="707" y="263"/>
+	</widget>
+	<widget field="Raise" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="450" y="361"/>
+	</widget>
+	<widget field="RotateRight" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="222" y="262"/>
+	</widget>
+	<widget field="LiftToLevel1" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="414" y="269"/>
+	</widget>
+	<widget field="Collector" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="918" y="313"/>
+	</widget>
+	<widget field="RangeFinder" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="902" y="356"/>
+	</widget>
+	<widget field="DriveTrain" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="228" y="198"/>
+		<height>23</height>
+	</widget>
+	<widget field="Lower" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="446" y="394"/>
+	</widget>
+	<widget field="LiftByJoystick" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="407" y="329"/>
+	</widget>
+	<widget field="CollectCrate" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="714" y="232"/>
+	</widget>
+	<widget field="WithdrawCollector" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="876" y="237"/>
+	</widget>
+	<widget field="ResetElevator" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="511" y="120"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+	<hidden field="stackevator setpoint"/>
+	<hidden field="bottom2"/>
+	<hidden field="encoder value"/>
+	<hidden field="GetZ"/>
+	<hidden field="bottom"/>
+	<hidden field="LowerElevator"/>
+	<hidden field="Stackevator onTarget"/>
+	<hidden field="Range"/>
+	<hidden field="Stackevator reachedBottom"/>
+	<hidden field="Stackevator going down"/>
+	<hidden field="LiftElevator"/>
+	<hidden field="Stackevator isMovingWithPID"/>
+	<hidden field="Stackevator isCalibrated"/>
+	<hidden field="ReleaseStack"/>
+	<hidden field="stackevator position"/>
+	<hidden field="Autonomous Command"/>
+	<hidden field="Stackevator"/>
+</xml>
