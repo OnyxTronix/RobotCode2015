@@ -99,7 +99,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putBoolean("bottom", Robot.stackevator.reached_bottom());
+        SmartDashboard.putBoolean("bottom", Robot.stackevator.reachedBottom());
         SmartDashboard.putNumber("stackevator position", stackevator.getPosition());
         SmartDashboard.putNumber("stackevator setpoint", stackevator.getSetpoint());
     }
