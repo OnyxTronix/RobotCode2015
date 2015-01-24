@@ -12,23 +12,34 @@
 package org.usfirst.frc2231.testingPIDelevator.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc2231.testingPIDelevator.Robot;
+import org.usfirst.frc2231.testingPIDelevator.subsystems.Stackevator;
 
-/**
- *
- */
-public class  Lower extends GeneralStackevatorCommand{
+public class  GeneralSetpointCommand extends GeneralStackevatorCommand {
 
-    public Lower() {
+	protected double setPoint;
+	protected boolean goingDown = false;
+	
+    public GeneralSetpointCommand() {
         super();
     }
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.stackevator.lower();
+
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    	
+    	goingDown = (Robot.stackevator.getPosition() > setPoint);
+    	if (goingDown){
+    		Robot.stackevator.setSetpoint(setPoint + Stackevator.GOING_DOWN_OFFSET);
+    	}
+    	else {
+    		Robot.stackevator.setSetpoint(setPoint);
+    	}
+    	Robot.stackevator.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return Robot.stackevator.onTarget();
     }
 }

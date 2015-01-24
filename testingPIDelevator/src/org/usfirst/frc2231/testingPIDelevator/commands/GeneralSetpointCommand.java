@@ -11,47 +11,37 @@
 
 package org.usfirst.frc2231.testingPIDelevator.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2231.testingPIDelevator.Robot;
+import org.usfirst.frc2231.testingPIDelevator.subsystems.Stackevator;
 
 /**
- *
- */
-public class  ResetElevator extends GeneralStackevatorCommand{
+* A general command which moves the elevator to a specific point
+* Inheriting classes must set the variable setPoint to the desired value.
+*/
+public class  GeneralSetpointCommand extends GeneralStackevatorCommand {
 
-	boolean resetWithPID;
+	protected double setPoint;
+	protected boolean goingDown = false;
 	
-    public ResetElevator() {
+    public GeneralSetpointCommand() {
         super();
-        resetWithPID = false;
     }
-    
+
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (Robot.stackevator.getCalibrated()) {
-    		Robot.stackevator.setSetpoint(0);
-    		Robot.stackevator.enable();
-    		resetWithPID = true;
+    	
+    	goingDown = (Robot.stackevator.getPosition() > setPoint);
+    	if (goingDown){
+    		Robot.stackevator.setSetpoint(setPoint + Stackevator.GOING_DOWN_OFFSET);
     	}
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	if (!resetWithPID) {
-    		Robot.stackevator.lower();
+    	else {
+    		Robot.stackevator.setSetpoint(setPoint);
     	}
+    	Robot.stackevator.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.stackevator.reachedBottom();
+    	return Robot.stackevator.onTarget();
     }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    	Robot.stackevator.stop();
-    	Robot.stackevator.resetEncoder();
-    	Robot.stackevator.setCalibrated(true);
-    }
-
 }
