@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc2231.testingPIDelevator.commands.*;
 import org.usfirst.frc2231.testingPIDelevator.subsystems.*;
 
 /**
@@ -99,9 +98,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putBoolean("bottom", Robot.stackevator.reachedBottom());
-        SmartDashboard.putNumber("stackevator position", stackevator.getPosition());
-        SmartDashboard.putNumber("stackevator setpoint", stackevator.getSetpoint());
+        stackevator.displayToSmartDashbaord();
     }
 
     /**

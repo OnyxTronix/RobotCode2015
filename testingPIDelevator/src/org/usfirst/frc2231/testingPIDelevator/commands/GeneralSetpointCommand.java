@@ -14,6 +14,8 @@ package org.usfirst.frc2231.testingPIDelevator.commands;
 import org.usfirst.frc2231.testingPIDelevator.Robot;
 import org.usfirst.frc2231.testingPIDelevator.subsystems.Stackevator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
 * A general command which moves the elevator to a specific point
 * Inheriting classes must set the variable setPoint to the desired value.
@@ -21,7 +23,6 @@ import org.usfirst.frc2231.testingPIDelevator.subsystems.Stackevator;
 public class  GeneralSetpointCommand extends GeneralStackevatorCommand {
 
 	protected double setPoint;
-	protected boolean goingDown = false;
 	
     public GeneralSetpointCommand() {
         super();
@@ -30,8 +31,9 @@ public class  GeneralSetpointCommand extends GeneralStackevatorCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	
-    	goingDown = (Robot.stackevator.getPosition() > setPoint);
-    	if (goingDown){
+    	// If going down add offset to the setpoint
+    	Robot.stackevator.setGoingDown(Robot.stackevator.getPosition() > setPoint);
+    	if (Robot.stackevator.isGoingDown()){
     		Robot.stackevator.setSetpoint(setPoint + Stackevator.GOING_DOWN_OFFSET);
     	}
     	else {
@@ -44,4 +46,5 @@ public class  GeneralSetpointCommand extends GeneralStackevatorCommand {
     protected boolean isFinished() {
     	return Robot.stackevator.onTarget();
     }
+        
 }

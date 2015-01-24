@@ -19,8 +19,6 @@ import org.usfirst.frc2231.testingPIDelevator.subsystems.Stackevator;
 public class  LiftToLevel1 extends GeneralSetpointCommand {
 
     public LiftToLevel1() {
-    	super();
     	setPoint = Stackevator.LEVEL_1_POSITION;
     }
-
 }

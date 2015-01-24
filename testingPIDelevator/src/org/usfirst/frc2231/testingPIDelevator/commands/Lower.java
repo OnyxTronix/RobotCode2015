@@ -11,7 +11,6 @@
 
 package org.usfirst.frc2231.testingPIDelevator.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2231.testingPIDelevator.Robot;
 
 /**
