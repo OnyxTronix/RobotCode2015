@@ -11,10 +11,11 @@
 
 package org.usfirst.frc2231.Robot2231.subsystems;
 
+import org.usfirst.frc2231.Robot2231.Robot;
 import org.usfirst.frc2231.Robot2231.RobotMap;
 import org.usfirst.frc2231.Robot2231.commands.*;
-import edu.wpi.first.wpilibj.*;
 
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc2231.utils.*;
@@ -62,7 +63,10 @@ public class DriveTrain extends Subsystem {
 	}
     
     public void arcadeDrive(Joystick stick) {
-    	drive.arcadeDrive(stick.getRawAxis(LEFT_AXIS_INDEX), -stick.getRawAxis(RIGHT_AXIS_INDEX));
+    	if(Math.abs(stick.getRawAxis(LEFT_AXIS_INDEX))>0.2 || Math.abs(stick.getRawAxis(RIGHT_AXIS_INDEX))>0.2)
+    		drive.arcadeDrive(stick.getRawAxis(LEFT_AXIS_INDEX), -stick.getRawAxis(RIGHT_AXIS_INDEX));
+    	else
+    		Robot.driveTrain.stopGradually(Robot.oi.driveStick);
 	}
     
     
