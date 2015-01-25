@@ -40,6 +40,7 @@ public class  DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.driveTrain.arcadeDrive(Robot.oi.driveStick);
+    	Robot.driveTrain.stopGradually(Robot.oi.driveStick);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

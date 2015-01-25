@@ -29,6 +29,7 @@ public class RobotMap {
     public static SpeedController driveTrainrearLeft;
     public static SpeedController driveTrainrearRight;
     public static RobotDrive driveTraindrive;
+    public static AnalogInput stackevatorrangeFinder;
     public static DigitalInput stackevatorbottom;
     public static Encoder stackevatorencoder;
     public static SpeedController stackevatormotor;
@@ -59,6 +60,9 @@ public class RobotMap {
         driveTraindrive.setSensitivity(0.5);
         driveTraindrive.setMaxOutput(1.0);
 
+        stackevatorrangeFinder = new AnalogInput(0);
+        LiveWindow.addSensor("Stackevator", "rangeFinder", stackevatorrangeFinder);
+        
         stackevatorbottom = new DigitalInput(6);
         LiveWindow.addSensor("Stackevator", "bottom", stackevatorbottom);
         
