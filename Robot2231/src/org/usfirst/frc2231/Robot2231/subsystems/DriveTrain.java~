@@ -11,10 +11,11 @@
 
 package org.usfirst.frc2231.Robot2231.subsystems;
 
+import org.usfirst.frc2231.Robot2231.Robot;
 import org.usfirst.frc2231.Robot2231.RobotMap;
 import org.usfirst.frc2231.Robot2231.commands.*;
-import edu.wpi.first.wpilibj.*;
 
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc2231.utils.*;
@@ -60,7 +61,10 @@ public class DriveTrain extends Subsystem {
 	}
     
     public void arcadeDrive(Joystick stick) {
-    	drive.arcadeDrive(stick.getRawAxis(LEFT_AXIS_INDEX), -stick.getRawAxis(RIGHT_AXIS_INDEX));
+    	if(Math.abs(stick.getRawAxis(LEFT_AXIS_INDEX))>0.2 || Math.abs(stick.getRawAxis(RIGHT_AXIS_INDEX))>0.2)
+    		drive.arcadeDrive(stick.getRawAxis(LEFT_AXIS_INDEX), -stick.getRawAxis(RIGHT_AXIS_INDEX));
+    	else
+    		Robot.driveTrain.stopGradually(Robot.oi.driveStick);
 	}
     
     
@@ -68,5 +72,37 @@ public class DriveTrain extends Subsystem {
     	drive.tankDrive(leftValue, rightValue);
 		
 	}
+    
+    public void stopGradually(Joystick stick)
+    {
+    	if (isMoving(stick))
+    	{
+    		/*double currentSpeed = Math.abs(this.frontRight.get());
+    		int sgn = currentSpeed/(this.frontRight.get()) <0 ? -1: 1;
+    		double init = currentSpeed;
+    		while (currentSpeed > 0)
+    		{
+    			softening--;
+    			currentSpeed -= 0.2* init;
+    			this.frontRight.set(sgn*currentSpeed);
+    			this.rearRight.set(sgn*currentSpeed);
+    			this.frontLeft.set(-sgn*currentSpeed);
+    			this.rearLeft.set(-sgn*currentSpeed);
+    			try
+    			{
+    				Thread.sleep(800);
+    			}
+    			catch (InterruptedException e){}
+    		}
+    		softening = 5;*/
+    	}
+    }
+    
+    public boolean isMoving(Joystick stick)
+    {
+    	if ((this.rearLeft.get() == 0 && this.rearRight.get() == 0 && this.frontLeft.get() == 0 && this.frontRight.get() == 0))
+    		return true;
+    	return false;
+    }
 }
 
