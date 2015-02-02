@@ -1,8 +1,11 @@
 package org.usfirst.frc.team2231.robot;
 
+import java.util.Vector;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ImageType;
+import com.ni.vision.NIVision.ParticleReport;
 import com.ni.vision.NIVision.RGBValue;
 import com.ni.vision.NIVision.Range;
 
@@ -12,6 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.image.BinaryImage;
 import edu.wpi.first.wpilibj.image.ColorImage;
 import edu.wpi.first.wpilibj.image.NIVisionException;
+import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -24,7 +28,7 @@ public class Robot extends SampleRobot {
 
 	AxisCamera camera;
 	USBCamera camera2;
-    
+	ParticleReport par;
 	//Images
 	Image frame;
 	Image binaryFrame;
@@ -38,10 +42,10 @@ public class Robot extends SampleRobot {
         camera2 = new USBCamera("cam0");
         camera2.openCamera();
         camera2.startCapture();
-        
         // create images
 		frame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+		par = new ParticleReport();
 		
 		//Put default values to SmartDashboard so fields will appear
 		SmartDashboard.putNumber("Tote hue min", TOTE_HUE_RANGE.minValue);
@@ -55,15 +59,22 @@ public class Robot extends SampleRobot {
     public void operatorControl() {
   
         while (isOperatorControl() && isEnabled()) {
+        	
+	    		//Put default values to SmartDashboard so fields will appear
+	    		TOTE_HUE_RANGE.minValue = (int)SmartDashboard.getNumber("Tote hue min");
+	    		TOTE_HUE_RANGE.maxValue = (int)SmartDashboard.getNumber("Tote hue max");
+	    		TOTE_SAT_RANGE.minValue = (int)SmartDashboard.getNumber("Tote sat min");
+	    		TOTE_SAT_RANGE.minValue = (int)SmartDashboard.getNumber("Tote sat min");
+	    		TOTE_VAL_RANGE.minValue = (int)SmartDashboard.getNumber("Tote val min");
+	    		TOTE_VAL_RANGE.minValue = (int)SmartDashboard.getNumber("Tote val min");
 
         		camera.getImage(frame);
 				//Threshold the image looking for yellow (tote color)
 				NIVision.imaqColorThreshold(binaryFrame, frame, 255, NIVision.ColorMode.HSL, TOTE_HUE_RANGE, TOTE_SAT_RANGE, TOTE_VAL_RANGE);
 				
 				RGBValue colorTable = new RGBValue(0, 255, 0, 0) ;
-				NIVision.imaqWriteFile(binaryFrame, "/tmp/threshold.jpg", colorTable);
+//				NIVision.imaqWriteFile(binaryFrame, "/tmp/threshold.jpg", colorTable);
 				CameraServer.getInstance().setImage(binaryFrame);
-
 
             /** robot code here! **/
             Timer.delay(0.005);		// wait for a motor update time

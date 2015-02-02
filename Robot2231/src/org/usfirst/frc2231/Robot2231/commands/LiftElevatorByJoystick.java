@@ -38,7 +38,7 @@ public class  LiftElevatorByJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.stackevator.set_elevator_by_joystick(Robot.oi.driveStick);
+    	Robot.stackevator.setByJoystick(Robot.oi.driveStick);
 
     }
 
