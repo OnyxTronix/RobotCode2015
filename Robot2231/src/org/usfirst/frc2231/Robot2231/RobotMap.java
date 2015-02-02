@@ -78,7 +78,7 @@ public class RobotMap {
         armRailrailMotor = new Talon(5);
         LiveWindow.addActuator("ArmRail", "railMotor", (Talon) armRailrailMotor);
         
-        armRailrailPositioner = new Encoder(0, 1, false, EncodingType.k4X);
+        armRailrailPositioner = new Encoder(4, 5, false, EncodingType.k4X);
         LiveWindow.addSensor("ArmRail", "railPositioner", armRailrailPositioner);
         armRailrailPositioner.setDistancePerPulse(1.0);
         armRailrailPositioner.setPIDSourceParameter(PIDSourceParameter.kDistance);
