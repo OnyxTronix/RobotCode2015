@@ -3,6 +3,8 @@ package org.usfirst.frc.team2231.robot;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.lang.Math;
 import java.util.Comparator;
 import java.util.Vector;
@@ -10,9 +12,12 @@ import java.util.Vector;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ImageType;
+import com.ni.vision.NIVision.MorphologyMethod;
+import com.ni.vision.NIVision.StructuringElement;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -56,33 +61,37 @@ public class Robot extends SampleRobot {
 
 		//Images
 		Image frame;
-		Image binaryFrame;
+		Image thresholdFrame;
+		Image filterFrame;
+		
 		int imaqError;
 
 		//Constants
-		NIVision.Range TOTE_HUE_RANGE = new NIVision.Range(	100, 160);	//Default hue range for yellow tote
-		NIVision.Range TOTE_SAT_RANGE = new NIVision.Range(0, 255);	//Default saturation range for yellow tote
-		NIVision.Range TOTE_VAL_RANGE = new NIVision.Range(125, 255);	//Default value range for yellow tote
-		double AREA_MINIMUM = 0.5; //Default Area minimum for particle as a percentage of total image area
+		NIVision.Range TOTE_HUE_RANGE = new NIVision.Range(	90, 170);	//Default hue range for yellow tote
+		NIVision.Range TOTE_SAT_RANGE = new NIVision.Range(210, 255);	//Default saturation range for yellow tote
+		NIVision.Range TOTE_INT_RANGE = new NIVision.Range(80, 180);	//Default value range for yellow tote
+		double AREA_MINIMUM = 0; //Default Area minimum for particle as a percentage of total image area
 		double LONG_RATIO = 2.22; //Tote long side = 26.9 / Tote height = 12.1 = 2.22
 		double SHORT_RATIO = 1.4; //Tote short side = 16.9 / Tote height = 12.1 = 1.4
 		double SCORE_MIN = 75.0;  //Minimum score to be considered a tote
 		double VIEW_ANGLE = 49.4; //View angle fo camera, set to Axis m1011 by default, 64 for m1013, 51.7 for 206, 52 for HD3000 square, 60 for HD3000 640x480
 		NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
-		NIVision.ParticleFilterOptions2 filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
+		NIVision.ParticleFilterOptions2 filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,0);
 		Scores scores = new Scores();
-		USBCamera USBCam;
+		USBCamera usbCam;
         
 
 		public void robotInit() {
 		    // create images
-			USBCam = new USBCamera("cam0");
-			USBCam.openCamera();
+			usbCam = new USBCamera("cam0");
+			System.out.println(usbCam.toString());
+			usbCam.openCamera();
 	        //the camera name (ex "cam0") can be found through the roborio web interface
-			USBCam.startCapture();
+			usbCam.startCapture();
 			frame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
-			binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
-			criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, AREA_MINIMUM, 100.0, 0, 0);
+			thresholdFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+			filterFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+			criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, AREA_MINIMUM, 100, 0, 0);
 //			FileDialog f = new FileDialog();
 			
 			//Put default values to SmartDashboard so fields will appear
@@ -90,46 +99,46 @@ public class Robot extends SampleRobot {
 			SmartDashboard.putNumber("Tote hue max", TOTE_HUE_RANGE.maxValue);
 			SmartDashboard.putNumber("Tote sat min", TOTE_SAT_RANGE.minValue);
 			SmartDashboard.putNumber("Tote sat max", TOTE_SAT_RANGE.maxValue);
-			SmartDashboard.putNumber("Tote val min", TOTE_VAL_RANGE.minValue);
-			SmartDashboard.putNumber("Tote val max", TOTE_VAL_RANGE.maxValue);
+			SmartDashboard.putNumber("Tote val min", TOTE_INT_RANGE.minValue);
+			SmartDashboard.putNumber("Tote val max", TOTE_INT_RANGE.maxValue);
 			SmartDashboard.putNumber("Area min %", AREA_MINIMUM);
 		}
 
 		public void autonomous() {
 			while (isAutonomous() && isEnabled())
 			{
+				Timer.delay(0.005);
 				//read file in from disk. For this example to run you need to copy image.jpg from the SampleImages folder to the
 				//directory shown below using FTP or SFTP: http://wpilib.screenstepslive.com/s/4485/m/24166/l/282299-roborio-ftp
 				//NIVision.imaqReadFile(frame, "/home/lvuser/SampleImages/image.jpg");
-				USBCam.getImage(frame);
+				usbCam.getImage(frame);
 
 				//Update threshold values from SmartDashboard. For performance reasons it is recommended to remove this after calibration is finished.
 				TOTE_HUE_RANGE.minValue = (int)SmartDashboard.getNumber("Tote hue min", TOTE_HUE_RANGE.minValue);
 				TOTE_HUE_RANGE.maxValue = (int)SmartDashboard.getNumber("Tote hue max", TOTE_HUE_RANGE.maxValue);
 				TOTE_SAT_RANGE.minValue = (int)SmartDashboard.getNumber("Tote sat min", TOTE_SAT_RANGE.minValue);
 				TOTE_SAT_RANGE.maxValue = (int)SmartDashboard.getNumber("Tote sat max", TOTE_SAT_RANGE.maxValue);
-				TOTE_VAL_RANGE.minValue = (int)SmartDashboard.getNumber("Tote val min", TOTE_VAL_RANGE.minValue);
-				TOTE_VAL_RANGE.maxValue = (int)SmartDashboard.getNumber("Tote val max", TOTE_VAL_RANGE.maxValue);
+				TOTE_INT_RANGE.minValue = (int)SmartDashboard.getNumber("Tote val min", TOTE_INT_RANGE.minValue);
+				TOTE_INT_RANGE.maxValue = (int)SmartDashboard.getNumber("Tote val max", TOTE_INT_RANGE.maxValue);
 
 				//Threshold the image looking for yellow (tote color)
-				NIVision.imaqColorThreshold(binaryFrame, frame, 255, NIVision.ColorMode.HSV, TOTE_HUE_RANGE, TOTE_SAT_RANGE, TOTE_VAL_RANGE);
+				NIVision.imaqColorThreshold(thresholdFrame, frame, 255, NIVision.ColorMode.HSI, TOTE_HUE_RANGE, TOTE_SAT_RANGE, TOTE_INT_RANGE);
 
 				//Send particle count to dashboard
-				int numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
+				int numParticles = NIVision.imaqCountParticles(thresholdFrame, 0);
 				SmartDashboard.putNumber("Masked particles", numParticles);
-
-				//Send masked image to dashboard to assist in tweaking mask.
-				CameraServer.getInstance().setImage(binaryFrame);
+				
 
 				//filter out small particles
 				float areaMin = (float)SmartDashboard.getNumber("Area min %", AREA_MINIMUM);
 				criteria[0].lower = areaMin;
-				imaqError = NIVision.imaqParticleFilter4(binaryFrame, binaryFrame, criteria, filterOptions, null);
-
+				CameraServer.getInstance().setImage(thresholdFrame);
+				imaqError = NIVision.imaqParticleFilter4(filterFrame, thresholdFrame, criteria, filterOptions, null);
+//				CameraServer.getInstance().setImage(filterFrame);
 				//Send particle count after filtering to dashboard
-				numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
-				SmartDashboard.putNumber("Filtered particles", numParticles);
-
+				numParticles = NIVision.imaqCountParticles(filterFrame, 0);
+				SmartDashboard.putNumber("After filtered particles", numParticles);
+				//CameraServer.getInstance().setImage(binaryFrame);
 				if(numParticles > 0)
 				{
 					//Measure particles and sort by particle size
@@ -137,12 +146,13 @@ public class Robot extends SampleRobot {
 					for(int particleIndex = 0; particleIndex < numParticles; particleIndex++)
 					{
 						ParticleReport par = new ParticleReport();
-						par.PercentAreaToImageArea = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
-						par.Area = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA);
-						par.BoundingRectTop = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_TOP);
-						par.BoundingRectLeft = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_LEFT);
-						par.BoundingRectBottom = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_BOTTOM);
-						par.BoundingRectRight = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_RIGHT);
+						par.PercentAreaToImageArea = NIVision.imaqMeasureParticle(filterFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
+						par.Area = NIVision.imaqMeasureParticle(filterFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA);
+						par.BoundingRectTop = NIVision.imaqMeasureParticle(filterFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_TOP);
+						par.BoundingRectLeft = NIVision.imaqMeasureParticle(filterFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_LEFT);
+						par.BoundingRectBottom = NIVision.imaqMeasureParticle(filterFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_BOTTOM);
+						par.BoundingRectRight = NIVision.imaqMeasureParticle(filterFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_RIGHT);
+						System.out.println(par.Area);
 						particles.add(par);
 					}
 					particles.sort(null);
@@ -158,7 +168,7 @@ public class Robot extends SampleRobot {
 
 					//Send distance and tote status to dashboard. The bounding rect, particularly the horizontal center (left - right) may be useful for rotating/driving towards a tote
 					SmartDashboard.putBoolean("IsTote", isTote);
-					SmartDashboard.putNumber("Distance", computeDistance(binaryFrame, particles.elementAt(0)));
+					SmartDashboard.putNumber("Distance", computeDistance(thresholdFrame, particles.elementAt(0)));
 				} else {
 					SmartDashboard.putBoolean("IsTote", false);
 				}
