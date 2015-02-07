@@ -17,9 +17,9 @@ import org.usfirst.frc2231.Robot2231.Robot;
 /**
  *
  */
-public class  stopCompressor extends Command {
+public class  StopCompressor extends Command {
 
-    public stopCompressor() {
+    public StopCompressor() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 

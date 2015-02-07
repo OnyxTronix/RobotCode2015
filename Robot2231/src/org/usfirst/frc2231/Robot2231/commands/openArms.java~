@@ -17,9 +17,9 @@ import org.usfirst.frc2231.Robot2231.Robot;
 /**
  *
  */
-public class  openArms extends Command {
+public class  OpenArms extends Command {
 
-    public openArms() {
+    public OpenArms() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 
@@ -35,7 +35,7 @@ public class  openArms extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arms.changeArmsStat(true);
+    	Robot.arms.changeArmsState(true);
     }
 
     // Make this return true when this Command no longer needs to run execute()

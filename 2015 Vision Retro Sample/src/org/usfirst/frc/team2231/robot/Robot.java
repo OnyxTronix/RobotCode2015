@@ -67,9 +67,9 @@ public class Robot extends SampleRobot {
 		int imaqError;
 
 		//Constants
-		NIVision.Range TOTE_HUE_RANGE = new NIVision.Range(	90, 170);	//Default hue range for yellow tote
-		NIVision.Range TOTE_SAT_RANGE = new NIVision.Range(210, 255);	//Default saturation range for yellow tote
-		NIVision.Range TOTE_INT_RANGE = new NIVision.Range(80, 180);	//Default value range for yellow tote
+		NIVision.Range TOTE_HUE_RANGE = new NIVision.Range(	64, 156);	//Default hue range for yellow tote
+		NIVision.Range TOTE_SAT_RANGE = new NIVision.Range(230, 255);	//Default saturation range for yellow tote
+		NIVision.Range TOTE_INT_RANGE = new NIVision.Range(200, 255);	//Default value range for yellow tote
 		double AREA_MINIMUM = 0; //Default Area minimum for particle as a percentage of total image area
 		double LONG_RATIO = 2.22; //Tote long side = 26.9 / Tote height = 12.1 = 2.22
 		double SHORT_RATIO = 1.4; //Tote short side = 16.9 / Tote height = 12.1 = 1.4

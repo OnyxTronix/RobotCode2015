@@ -36,6 +36,9 @@ public class  ResetElevator extends GeneralStackevatorCommand{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if (resetWithPID && Robot.stackevator.onTarget() && !Robot.stackevator.reachedBottom()) {
+    		resetWithPID = false;
+    	}
     	if (!resetWithPID) {
     		Robot.stackevator.lower();
     	}
