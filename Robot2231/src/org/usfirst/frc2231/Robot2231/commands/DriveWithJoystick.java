@@ -11,18 +11,22 @@
 
 package org.usfirst.frc2231.Robot2231.commands;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc2231.Robot2231.Robot;
+import org.usfirst.frc2231.Robot2231.RobotMap;
+import org.usfirst.frc2231.Robot2231.subsystems.DriveTrain;
 
 /**
  *
  */
 public class  DriveWithJoystick extends Command {
-
-
+	BuiltInAccelerometer BIAccel = new BuiltInAccelerometer();
+	double accel;
+	double minMotorSpeed;
     public DriveWithJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -39,7 +43,11 @@ public class  DriveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.arcadeDrive(Robot.oi.driveStick);
+    	//define parameters
+    	accel = BIAccel.getY();
+    	minMotorSpeed=Math.min(RobotMap.driveTrainfrontLeft.get(), Math.min(RobotMap.driveTrainfrontRight.get(), Math.min(RobotMap.driveTrainrearLeft.get(),RobotMap.driveTrainrearRight.get())));
+    	
+    	Robot.driveTrain.arcadeDrive(Robot.oi.driveStick,accel,minMotorSpeed);
     	Robot.driveTrain.touchRumble(Robot.oi.driveStick, Robot.oi.functionStick);
     }
     // Make this return true when this Command no longer needs to run execute()

@@ -87,10 +87,10 @@ public class RobotMap {
         armscomp = new Compressor(0);
         
         
-        armsopen = new Solenoid(1, 0);
+        armsopen = new Solenoid(1);
         LiveWindow.addActuator("Arms", "open", armsopen);
         
-        armsclose = new Solenoid(0, 0);
+        armsclose = new Solenoid(0);
         LiveWindow.addActuator("Arms", "close", armsclose);
         
 

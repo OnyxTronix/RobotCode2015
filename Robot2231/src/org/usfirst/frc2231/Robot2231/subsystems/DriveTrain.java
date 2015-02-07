@@ -88,7 +88,6 @@ public class DriveTrain extends Subsystem {
     	}
 	}
     
-    
     public void tankDrive(double leftValue, double rightValue) {
     	drive.tankDrive(leftValue, rightValue);	
 	}
