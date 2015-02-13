@@ -1,1 +1,9 @@
 /org/
+/Commands/
+/OI.cpp
+/OI.h
+/Robot.cpp
+/Robot.h
+/RobotMap.cpp
+/RobotMap.h
+/Subsystems/

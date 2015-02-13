@@ -11,18 +11,20 @@
 
 package org.usfirst.frc2231.Robot2231.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.usfirst.frc2231.Robot2231.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class  DriveWithJoystick extends Command {
-
-
+	double min=1;
+	
     public DriveWithJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -39,11 +41,28 @@ public class  DriveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(Robot.driveTrain.minMotorSpeed()<min)
+    	{
+    		System.out.println(Robot.driveTrain.minMotorSpeed());
+    		try {
+    			FileOutputStream out = new FileOutputStream("../etc/logs.txt");
+    			OutputStreamWriter o = new OutputStreamWriter(out);
+    			o.write(Robot.driveTrain.minMotorSpeed() + "\n");
+    			o.close();
+    			out.close();
+    			
+    		} catch(IOException e) {
+    			System.out.println(e.toString());
+    		}
+    		min=Robot.driveTrain.minMotorSpeed();
+    	}
     	Robot.driveTrain.arcadeDrive(Robot.oi.driveStick);
-    	Robot.driveTrain.touchRumble(Robot.oi.driveStick, Robot.oi.functionStick);
+    
     }
-    // Make this return true when this Command no longer needs to run execute()
+
+	// Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	//Robot.driveTrain.stopGradually();
         return false;
     }
 

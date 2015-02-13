@@ -17,31 +17,14 @@ import org.usfirst.frc2231.Robot2231.Robot;
  * Moves the elevator to the bottom and resets encoder
  */
 public class  ResetElevator extends GeneralStackevatorCommand{
-
-	boolean resetWithPID;
 	
     public ResetElevator() {
         super();
-        resetWithPID = false;
     }
     
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	if (Robot.stackevator.getCalibrated()) {
-    		Robot.stackevator.setSetpoint(0);
-    		Robot.stackevator.enable();
-    		resetWithPID = true;
-    	}
-    }
-
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (resetWithPID && Robot.stackevator.onTarget() && !Robot.stackevator.reachedBottom()) {
-    		resetWithPID = false;
-    	}
-    	if (!resetWithPID) {
-    		Robot.stackevator.lower();
-    	}
+		Robot.stackevator.lower();
     }
 
     // Make this return true when this Command no longer needs to run execute()

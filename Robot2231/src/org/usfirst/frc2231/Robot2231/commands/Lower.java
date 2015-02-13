@@ -28,6 +28,6 @@ public class  Lower extends GeneralStackevatorCommand{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.stackevator.reachedBottom();
     }
 }

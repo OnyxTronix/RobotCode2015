@@ -12,6 +12,8 @@
 package org.usfirst.frc2231.Robot2231.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc2231.Robot2231.AutonomousConfig;
 import org.usfirst.frc2231.Robot2231.Robot;
 
 /**
@@ -31,6 +33,7 @@ public class  InsertWithWheels extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	setTimeout(AutonomousConfig.SECONDS_TO_MOVE_WHEELS);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -40,11 +43,12 @@ public class  InsertWithWheels extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.collector.stopWheels();
     }
 
     // Called when another command which requires one or more of the same

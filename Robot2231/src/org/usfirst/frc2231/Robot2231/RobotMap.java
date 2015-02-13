@@ -29,7 +29,6 @@ public class RobotMap {
     public static SpeedController driveTrainrearLeft;
     public static SpeedController driveTrainrearRight;
     public static RobotDrive driveTraindrive;
-    public static DigitalInput driveTrainboxDetector;
     public static AnalogInput stackevatorrangeFinder;
     public static DigitalInput stackevatorbottom;
     public static Encoder stackevatorencoder;
@@ -69,9 +68,6 @@ public class RobotMap {
         driveTraindrive.setSensitivity(0.5);
         driveTraindrive.setMaxOutput(1.0);
 
-        driveTrainboxDetector = new DigitalInput(4);
-        LiveWindow.addSensor("DriveTrain", "boxDetector", driveTrainboxDetector);
-        
         stackevatorrangeFinder = new AnalogInput(0);
         LiveWindow.addSensor("Stackevator", "rangeFinder", stackevatorrangeFinder);
         
@@ -82,8 +78,8 @@ public class RobotMap {
         LiveWindow.addSensor("Stackevator", "encoder", stackevatorencoder);
         stackevatorencoder.setDistancePerPulse(1.0);
         stackevatorencoder.setPIDSourceParameter(PIDSourceParameter.kDistance);
-        stackevatormotor = new Victor(4);
-        LiveWindow.addActuator("Stackevator", "motor", (Victor) stackevatormotor);
+        stackevatormotor = new Talon(4);
+        LiveWindow.addActuator("Stackevator", "motor", (Talon) stackevatormotor);
         
         stackevatortop = new DigitalInput(5);
         LiveWindow.addSensor("Stackevator", "top", stackevatortop);
@@ -91,16 +87,16 @@ public class RobotMap {
         armscomp = new Compressor(0);
         
         
-        armsopenArms = new Solenoid(1);
+        armsopenArms = new Solenoid(0, 1);
         LiveWindow.addActuator("Arms", "openArms", armsopenArms);
         
-        armscloseArms = new Solenoid(0);
+        armscloseArms = new Solenoid(0, 0);
         LiveWindow.addActuator("Arms", "closeArms", armscloseArms);
         
-        collectoropenWheels = new Solenoid(2);
+        collectoropenWheels = new Solenoid(0, 2);
         LiveWindow.addActuator("Collector", "openWheels", collectoropenWheels);
         
-        collectorcloseWheels = new Solenoid(3);
+        collectorcloseWheels = new Solenoid(0, 3);
         LiveWindow.addActuator("Collector", "closeWheels", collectorcloseWheels);
         
         collectorleftWheel = new Victor(5);
