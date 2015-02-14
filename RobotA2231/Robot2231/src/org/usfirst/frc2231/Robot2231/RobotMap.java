@@ -28,6 +28,8 @@ public class RobotMap {
     public static SpeedController driveTrainleft;
     public static SpeedController driveTrainright;
     public static RobotDrive driveTraindrive;
+    public static Encoder driveTrainleftencoder;
+    public static Encoder driveTrainrightencoder;
     public static DigitalInput stackevatorbottom;
     public static Encoder stackevatorencoder;
     public static SpeedController stackevatormotor;
@@ -58,6 +60,14 @@ public class RobotMap {
         driveTraindrive.setMaxOutput(1.0);
         
 
+        driveTrainleftencoder = new Encoder(0, 1, false, EncodingType.k4X);
+        LiveWindow.addSensor("DriveTrain", "left encoder", driveTrainleftencoder);
+        driveTrainleftencoder.setDistancePerPulse(0.1915114881628338);
+        driveTrainleftencoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+        driveTrainrightencoder = new Encoder(2, 3, false, EncodingType.k4X);
+        LiveWindow.addSensor("DriveTrain", "right encoder", driveTrainrightencoder);
+        driveTrainrightencoder.setDistancePerPulse(0.1915114881628338);
+        driveTrainrightencoder.setPIDSourceParameter(PIDSourceParameter.kRate);
         stackevatorbottom = new DigitalInput(6);
         LiveWindow.addSensor("Stackevator", "bottom", stackevatorbottom);
         
