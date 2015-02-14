@@ -10,6 +10,8 @@
 
 
 package org.usfirst.frc2231.Robot2231.commands;
+import org.usfirst.frc2231.Robot2231.AutonomousConfig;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -25,20 +27,19 @@ public class AutoAllBoxes extends CommandGroup {
     	addSequential(new InsertCrate());
     	addSequential(new Lower());
     	addSequential(new LiftToLevel1());
-    	addSequential(new AutoTurnRight());
-    	addSequential(new AutoDriveToBox());
-    	addSequential(new AutoTurnLeft());
+    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME));
+    	addSequential(new AutoDriveToBox(AutonomousConfig.MOVE_FORWARD_TIME));
+    	addSequential(new AutoTurnLeft(AutonomousConfig.TURN_LEFT_TIME));
     	addSequential(new InsertCrate());
     	addSequential(new Lower());
     	addSequential(new LiftToLevel2());
-    	addSequential(new AutoTurnRight());
-    	addSequential(new AutoDriveToBox());
-    	addSequential(new AutoTurnLeft());
+    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME));
+    	addSequential(new AutoDriveToBox(AutonomousConfig.MOVE_FORWARD_TIME));
+    	addSequential(new AutoTurnLeft(AutonomousConfig.TURN_LEFT_TIME));
     	addParallel(new InsertWithWheels());
     	addSequential(new CloseWheels());
-    	addSequential(new AutoTurnRight());
-    	addSequential(new AutoTurnRight());
-    	addSequential(new DriveToAutozone());
+    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME*2));
+    	addSequential(new AutoDriveToAutoZone(AutonomousConfig.DRIVE_TO_AUTO_ZONE_TIME));
         // To run multiple 	commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

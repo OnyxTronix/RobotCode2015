@@ -62,7 +62,7 @@ public class RobotMap {
         stackevatorbottom = new DigitalInput(6);
         LiveWindow.addSensor("Stackevator", "bottom", stackevatorbottom);
         
-        stackevatorencoder = new Encoder(7, 8, false, EncodingType.k4X);
+        stackevatorencoder = new Encoder(7, 8, true, EncodingType.k4X);
         LiveWindow.addSensor("Stackevator", "encoder", stackevatorencoder);
         stackevatorencoder.setDistancePerPulse(1.0);
         stackevatorencoder.setPIDSourceParameter(PIDSourceParameter.kDistance);

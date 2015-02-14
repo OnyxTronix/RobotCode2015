@@ -10,6 +10,7 @@
 
 
 package org.usfirst.frc2231.Robot2231.commands;
+import org.usfirst.frc2231.Robot2231.AutonomousConfig;
 import org.usfirst.frc2231.Robot2231.Robot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -27,8 +28,8 @@ public class Auto1Tote extends CommandGroup {
     	requires(Robot.collector);
     	
     	addSequential(new ResetElevator());
-    	addSequential(new AutoTurnRight());
-    	addSequential(new AutoDriveToAutoZone());
+    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME));
+    	addSequential(new AutoDriveToAutoZone(AutonomousConfig.DRIVE_TO_AUTO_ZONE_TIME));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

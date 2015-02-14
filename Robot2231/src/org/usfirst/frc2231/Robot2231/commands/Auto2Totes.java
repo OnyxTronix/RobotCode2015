@@ -10,37 +10,20 @@
 
 
 package org.usfirst.frc2231.Robot2231.commands;
-import org.usfirst.frc2231.Robot2231.AutonomousConfig;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoAllBoxes extends CommandGroup {
+public class Auto2Totes extends CommandGroup {
     
-    public  AutoAllBoxes() {
+    public  Auto2Totes() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new InsertCrate());
-    	addSequential(new Lower());
-    	addSequential(new LiftToLevel1());
-    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME));
-    	addSequential(new AutoDriveToBox(AutonomousConfig.MOVE_FORWARD_TIME));
-    	addSequential(new AutoTurnLeft(AutonomousConfig.TURN_LEFT_TIME));
-    	addSequential(new InsertCrate());
-    	addSequential(new Lower());
-    	addSequential(new LiftToLevel2());
-    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME));
-    	addSequential(new AutoDriveToBox(AutonomousConfig.MOVE_FORWARD_TIME));
-    	addSequential(new AutoTurnLeft(AutonomousConfig.TURN_LEFT_TIME));
-    	addParallel(new InsertWithWheels());
-    	addSequential(new CloseWheels());
-    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME*2));
-    	addSequential(new AutoDriveToAutoZone(AutonomousConfig.DRIVE_TO_AUTO_ZONE_TIME));
-        // To run multiple 	commands at the same time,
+
+        // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());

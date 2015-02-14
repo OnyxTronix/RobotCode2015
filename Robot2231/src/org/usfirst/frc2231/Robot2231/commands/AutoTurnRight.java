@@ -18,14 +18,15 @@ import org.usfirst.frc2231.Robot2231.Robot;
  *
  */
 public class  AutoTurnRight extends RotateRight {
-
-    public AutoTurnRight() {
+	private double _timeout;
+    public AutoTurnRight(double timeout) {    	
     	super();
+    	_timeout = timeout;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(AutonomousConfig.TURN_RIGHT_TIME);
+    	setTimeout(_timeout);
     }
 
     // Make this return true when this Command no longer needs to run execute()
