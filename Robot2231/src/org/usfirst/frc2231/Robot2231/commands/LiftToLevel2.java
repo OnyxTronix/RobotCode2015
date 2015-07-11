@@ -11,6 +11,7 @@
 
 package org.usfirst.frc2231.Robot2231.commands;
 
+import org.usfirst.frc2231.Robot2231.AutonomousConfig;
 import org.usfirst.frc2231.Robot2231.subsystems.Stackevator;
 
 /**
@@ -21,5 +22,6 @@ public class  LiftToLevel2 extends GeneralSetpointCommand{
     public LiftToLevel2() {
         super();
         setPoint = Stackevator.LEVEL_2_POSITION;
+        maxTimeout  = AutonomousConfig.TIME_LIFT_LEVEL_2;
     }
 }

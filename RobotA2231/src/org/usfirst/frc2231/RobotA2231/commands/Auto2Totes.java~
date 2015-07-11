@@ -1,0 +1,52 @@
+package org.usfirst.frc2231.RobotA2231.commands;
+
+import org.usfirst.frc2231.RobotA2231.Robot;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
+/**
+ *
+ */
+public class Auto2Totes extends CommandGroup {
+    
+    public  Auto2Totes() {
+    	
+    	requires(Robot.driveTrain);
+    	requires(Robot.stackevator);
+    	requires(Robot.arms);
+    	requires(Robot.collector);
+    	
+    	addSequential(new CloseWheels());
+    	addParallel(new AutoTurnRightWithDistance(45));
+    	addSequential(new AutoDriveForwardWithDistance(1.75));
+    	addParallel(new AutoInsertAndLiftToLevel1());
+    	addSequential(new AutoTurnLeftWithDistance(45));
+    	addSequential(new CloseWheels());
+    	//addParallel(new AutoTurnRightWithDistance(45));
+    	//addSequential(new AutoDriveForwardWithDistance(1.75));
+    	//addParallel(new AutoInsertAndLiftToLevel1());
+    	//addSequential(new AutoTurnLeftWithDistance(45));
+    	//addSequential(new CloseWheels());
+    	addParallel(new AutoTurnRightWithDistance(135));
+    	//addSequential(new AutoDriveForwardWithDistance(1.2));
+    	addSequential(new AutoDriveForwardWithTime(1));
+    	//TODO close wheels, turn right, drive forwards
+
+        // Add Commands here:
+        // e.g. addSequential(new Command1());
+        //      addSequential(new Command2());
+        // these will run in order.
+
+        // To run multiple commands at the same time,
+        // use addParallel()
+        // e.g. addParallel(new Command1());
+        //      addSequential(new Command2());
+        // Command1 and Command2 will run in parallel.
+
+        // A command group will require all of the subsystems that each member
+        // would require.
+        // e.g. if Command1 requires chassis, and Command2 requires arm,
+        // a CommandGroup containing them would require both the chassis and the
+        // arm.
+    }
+}

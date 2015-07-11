@@ -13,8 +13,9 @@ package org.usfirst.frc2231.Robot2231.subsystems;
 
 import org.usfirst.frc2231.Robot2231.RobotMap;
 import org.usfirst.frc2231.Robot2231.commands.*;
-import edu.wpi.first.wpilibj.*;
 
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
@@ -71,6 +72,18 @@ public class Collector extends Subsystem {
     		leftWheel.set(-1);
     		rightWheel.set(1);
     	}
+    }
+    public void spinWheelsRight()
+    {
+		rightWheel.set(1);
+		leftWheel.set(1);
+    }
+
+    
+    public void spinWheelsLeft()
+    {
+		rightWheel.set(-1);
+		leftWheel.set(-1);
     }
     
     public void stopWheels()

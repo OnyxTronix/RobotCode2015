@@ -21,6 +21,7 @@ import org.usfirst.frc2231.Robot2231.subsystems.Stackevator;
 public class  GeneralSetpointCommand extends GeneralStackevatorCommand {
 
 	protected double setPoint;
+	protected double maxTimeout;
 	
     public GeneralSetpointCommand() {
         super();
@@ -28,6 +29,8 @@ public class  GeneralSetpointCommand extends GeneralStackevatorCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
+    	setTimeout(maxTimeout);
     	
     	// If going down add offset to the setpoint
     	Robot.stackevator.setGoingDown(Robot.stackevator.getPosition() > setPoint);
@@ -42,7 +45,7 @@ public class  GeneralSetpointCommand extends GeneralStackevatorCommand {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.stackevator.onTarget();
+    	return Robot.stackevator.onTarget() || isTimedOut();
     }
         
 }

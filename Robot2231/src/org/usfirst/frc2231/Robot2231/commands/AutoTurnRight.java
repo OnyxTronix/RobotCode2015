@@ -11,31 +11,50 @@
 
 package org.usfirst.frc2231.Robot2231.commands;
 
-import org.usfirst.frc2231.Robot2231.AutonomousConfig;
 import org.usfirst.frc2231.Robot2231.Robot;
+import org.usfirst.frc2231.utils.Direction;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class  AutoTurnRight extends RotateRight {
-	private double _timeout;
-    public AutoTurnRight(double timeout) {    	
+public class  AutoTurnRight extends Command {
+	private double maxTimeout;
+	private double angleToTurnRight;
+    public AutoTurnRight(double angle, double timeout) {    	
     	super();
-    	_timeout = timeout;
+    	maxTimeout = timeout;
+    	angleToTurnRight = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(_timeout);
+    	Robot.driveTrain.initializeEncoders();
+    	setTimeout(maxTimeout);
     }
+
+
+	@Override
+	protected void execute() {
+		// TODO Auto-generated method stub
+		Robot.driveTrain.turn(Direction.RIGHT);
+	}
+	
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+    	return Robot.driveTrain.posRight() >= 59.5 * (angleToTurnRight / 360) * Math.PI || isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.stop();
     }
+
+	@Override
+	protected void interrupted() {
+		// TODO Auto-generated method stub
+		
+	}
 }

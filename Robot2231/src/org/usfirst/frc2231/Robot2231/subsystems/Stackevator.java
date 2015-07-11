@@ -36,6 +36,7 @@ public class Stackevator extends PIDSubsystem {
     
     public static final double LEVEL_1_POSITION = 1500;
     public static final double LEVEL_2_POSITION = 2300;
+    public static final double LEVEL_CAN = 2700;
     public static final double GOING_DOWN_OFFSET = 0;
     
     boolean isCalibrated;
@@ -142,9 +143,10 @@ public class Stackevator extends PIDSubsystem {
     public boolean reachedBottom() {
     	//@summary: returns if the system is at the bottom(by microswitch value)
     	return !bottom.get();
-	}
+    }
     
     public boolean reachedTop() {
+    	System.out.println(top.get());
     	return !top.get();
     }
     
@@ -159,33 +161,23 @@ public class Stackevator extends PIDSubsystem {
     
     public void setByJoystick(Joystick stick) {
     	//@summary: move the system manually by with a joystick
-    	double setValue = stick.getRawAxis(3)-stick.getRawAxis(2);
-//    	boolean goingDown = (setValue < 0);
-//    	boolean goingUp = (setValue > 0);
-//    	boolean stopped = (setValue == 0);
-    	motor.set(setValue);
-//    	if (!stopped)
-//    	{
-//	    	if(goingDown && !reachedBottom()) {
-//	    		System.out.println("Ya Tamid Rasiti");
-//	    		motor.set(setValue);
-//	    	}
-//	    	else if(goingUp && !reachedTop()) {
-//	    		System.out.println("Helllloooo :)");
-//	    		motor.set(setValue);
-//	    	}
-//	    	else
-//	    		motor.set(0);
-//	    	if (reachedTop())
-//	    		System.out.println("On Top");
-//	    	setGoingDown(goingDown);
-//	    	/*if (!(goingDown && reachedBottom())) {
-//	        	setGoingDown(goingDown);        	
-//	        	motor.set(setValue);
-//	    	}*/
-//    	}
-//    	else
-//    		motor.set(0);
+    	double setValue = -stick.getRawAxis(1);
+    	if (Math.abs(setValue) < 0.1)
+    		setValue = 0;
+    	boolean goingDown = (setValue < 0);
+    	boolean stopped = (setValue == 0);
+    	if (!stopped)
+    	{
+	    	if(goingDown && reachedBottom()) {
+	    		setValue = 0;
+	    	}
+	    	else if(!goingDown && reachedTop()) {
+	    		setValue = 0;
+	    	}
+
+	    	setGoingDown(goingDown);
+    	}
+		motor.set(setValue);
 	}
     
     public void resetEncoder() {
@@ -200,6 +192,7 @@ public class Stackevator extends PIDSubsystem {
 		SmartDashboard.putBoolean("Stackevator Reached Bottom", reachedBottom());
 		SmartDashboard.putBoolean("Stackevator Moving with PID", isMovingWithPID);
 		SmartDashboard.putBoolean("Stackevator Going Down", isGoingDown);
-		
+		SmartDashboard.putBoolean("Stackevator top switch", top.get());
+		System.out.println("Buttom Mswitch = " + bottom.get());
 	}
 }

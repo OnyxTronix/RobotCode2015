@@ -10,6 +10,9 @@
 
 
 package org.usfirst.frc2231.Robot2231.commands;
+import org.usfirst.frc2231.Robot2231.AutonomousConfig;
+import org.usfirst.frc2231.Robot2231.Robot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -22,6 +25,43 @@ public class Auto2Totes extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
+    	requires(Robot.driveTrain);
+    	requires(Robot.stackevator);
+    	requires(Robot.arms);
+    	requires(Robot.collector);
+    	
+    	//addSequential(new LiftToLevel1());
+    	//addSequential(new InsertCrate());
+    	addSequential(new ResetElevator());
+    	addParallel(new LiftToLevel1());
+    	addSequential(new AutoTurnRight(45, 0.8)); //for overhauled auto
+    	
+    	///addSequential(new CloseWheels()); //for overhauled auto
+    	addSequential(new AutoDriveForward(100, 1.5)); //remove for overhauled auto
+    	addSequential(new AutoTurnLeft(180, 0.9));
+    	addSequential(new AutoDriveForward(165, 1.35));
+    	addSequential(new InsertCrate());
+    	addSequential(new ResetElevator());
+    	addSequential(new LiftToLevel1());
+    	addParallel(new AutoTurnRight(90, 2.2*AutonomousConfig.TURN_RIGHT_TIME));
+    	addSequential(new AutoDriveForward(200, 2));
+    	addSequential(new AutoDriveForward(200, 2));
+    	addParallel(new ResetElevator());
+    	///addParallel(new AutoEjectWithWheels(4)); //for overhauled auto
+    	///addSequential(new OpenWheels());
+    	//addParallel(new AutoInsertAndLiftToLevel1()); //not really needed
+    	///addSequential(new AutoTurnLeft(30, 2));
+    	///addParallel(new AutoDriveForward(110, 7)); //for overhauled auto
+    	//addSequential(new CloseWheels());
+    	//addParallel(new AutoTurnRightWithDistance(45));
+    	//addSequential(new AutoDriveForwardWithDistance(1.75));
+    	///addSequential(new AutoInsertAndLiftToLevel1());
+    	//addSequential(new AutoTurnLeftWithDistance(45));
+    	//addSequential(new CloseWheels());
+    	///addParallel(new AutoTurnRight(135, 1.5));
+    	///addSequential(new AutoDriveForward(1.2, 2));
+    	//addSequential(new AutoDriveForwardWithTime(1));
+    	//TODO close wheels, turn right, drive forwards
 
         // To run multiple commands at the same time,
         // use addParallel()

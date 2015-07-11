@@ -24,22 +24,32 @@ public class AutoAllBoxes extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new InsertCrate());
-    	addSequential(new Lower());
-    	addSequential(new LiftToLevel1());
-    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME));
-    	addSequential(new AutoDriveToBox(AutonomousConfig.MOVE_FORWARD_TIME));
-    	addSequential(new AutoTurnLeft(AutonomousConfig.TURN_LEFT_TIME));
-    	addSequential(new InsertCrate());
-    	addSequential(new Lower());
-    	addSequential(new LiftToLevel2());
-    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME));
-    	addSequential(new AutoDriveToBox(AutonomousConfig.MOVE_FORWARD_TIME));
-    	addSequential(new AutoTurnLeft(AutonomousConfig.TURN_LEFT_TIME));
-    	addParallel(new InsertWithWheels());
+    	addSequential(new ResetElevator());
+    	addParallel(new LiftToLevel1());
+    	addParallel(new RemoveWithWheels());
+    	addSequential(new AutoTurnRight(26, 0.5)); //for overhauled auto
+       	addSequential(new AutoDriveForward(75, 1.5)); //remove for overhauled auto
+    	addSequential(new AutoTurnLeft(112, 1.2));
+    	addParallel(new StopCollectorWheels());
+    	addSequential(new AutoDriveForward(63, 0.9));
+    	//addSequential(new InsertCrate());
     	addSequential(new CloseWheels());
-    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME*2));
-    	addSequential(new AutoDriveToAutoZone(AutonomousConfig.DRIVE_TO_AUTO_ZONE_TIME));
+    	//addSequential(new ResetElevator());
+    	//addParallel(new LiftToLevel1());
+    	//addParallel(new RemoveWithWheels());
+    	addParallel(new InsertCrate());
+    	addSequential(new AutoTurnLeft(10, 1.8));   
+    	addSequential(new ResetElevator());
+    	addParallel(new LiftToLevel1());
+    	addSequential(new AutoDriveForward(40, 1.5)); //remove for overhauled auto
+    	addSequential(new AutoTurnRight(50	, 1.1));
+    	addSequential(new AutoDriveForward(63, 0.9));    	
+    	addSequential(new InsertCrate());
+    	addSequential(new ResetElevator());
+    	addParallel(new AutoTurnRight(90, 2.2*AutonomousConfig.TURN_RIGHT_TIME));
+    	addSequential(new AutoDriveForward(200, 2));
+    	addSequential(new AutoDriveForward(200, 2));
+    	
         // To run multiple 	commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

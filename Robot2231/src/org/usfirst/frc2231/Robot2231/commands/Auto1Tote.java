@@ -28,8 +28,12 @@ public class Auto1Tote extends CommandGroup {
     	requires(Robot.collector);
     	
     	addSequential(new ResetElevator());
-    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME));
-    	addSequential(new AutoDriveToAutoZone(AutonomousConfig.DRIVE_TO_AUTO_ZONE_TIME));
+    	addSequential(new LiftToLevel1());
+    	addSequential(new ResetElevator());
+    	addSequential(new LiftToLevel2());
+    	addSequential(new ResetElevator());
+    	addSequential(new AutoTurnRight(AutonomousConfig.TURN_RIGHT_TIME, AutonomousConfig.TURN_RIGHT_ANGLE));
+    	addSequential(new AutoDriveForward(AutonomousConfig.MOVE_FORWARD_DISTANCE, AutonomousConfig.DRIVE_TO_AUTO_ZONE_TIME));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
