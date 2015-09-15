@@ -35,7 +35,7 @@ public class DriveTrain extends Subsystem {
     BuiltInAccelerometer mainAccelerometer = RobotMap.mainAccelerometer;
     
     double TURN_MAGNITUDE = 0.7;
-    double FORWARD_MAGNITUDE = -0.5;
+    double FORWARD_MAGNITUDE = -0.1;
     int LEFT_AXIS_INDEX = 1;
 	int RIGHT_AXIS_INDEX = 4;
 
@@ -74,7 +74,7 @@ public class DriveTrain extends Subsystem {
 	}
     
     public void arcadeDrive(Joystick stick) {
-    	drive.arcadeDrive(stick.getRawAxis(LEFT_AXIS_INDEX), -stick.getRawAxis(RIGHT_AXIS_INDEX));
+    	drive.arcadeDrive(stick.getRawAxis(LEFT_AXIS_INDEX)/1.5, -stick.getRawAxis(RIGHT_AXIS_INDEX)/1.1);
     	System.out.println("Axis value: " + stick.getRawAxis(LEFT_AXIS_INDEX));
     	if (stick.getRawAxis(LEFT_AXIS_INDEX) < 0.15 && stick.getRawAxis(LEFT_AXIS_INDEX) > -0.1)
     		stopGradually();

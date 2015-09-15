@@ -91,10 +91,10 @@ public class RobotMap {
         collectorcloseWheels = new Solenoid(0, 3);
         LiveWindow.addActuator("Collector", "closeWheels", collectorcloseWheels);
         
-        collectorleftWheel = new Victor(5);
+        collectorleftWheel = new Victor(4);
         LiveWindow.addActuator("Collector", "leftWheel", (Victor) collectorleftWheel);
         
-        collectorrightWheel = new Victor(7);
+        collectorrightWheel = new Victor(3);
         LiveWindow.addActuator("Collector", "rightWheel", (Victor) collectorrightWheel);
         
 
