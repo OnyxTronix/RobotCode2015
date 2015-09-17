@@ -9,7 +9,7 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc2231.2014Robot;
+package org.usfirst.frc2231.Robot2014;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
