@@ -5,10 +5,10 @@ import java.awt.Point;
 public class ButtonCodesLocations {
 	static Point a = new Point(730, 360);
 	static Point b = new Point(750, 290);
-	static Point x = new Point(650, 290);
+	static Point x = new Point(600, 240);
 	static Point y = new Point(730, 220);
 	static Point leftBumper = new Point(75, 85);
-	static Point rightBumper = new Point(730, 85);
+	static Point rightBumper = new Point(680, 85);
 	static Point back = new Point(275, 275);
 	static Point start = new Point(375, 225);
 	
